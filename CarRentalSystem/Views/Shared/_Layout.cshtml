@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewData["Title"] - CarRentalSystem</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -10,9 +10,9 @@
 </head>
 <body>
     <header id="glowny">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img id="logo" src="~/images/logo.jpg"/></a>
+        <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img class="img-fluid" id="logo" src="~/images/logo.jpg" alt="Logo" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,33 +20,33 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="pages">
                     <ul class="navbar-nav flex-grow-1" id="strony">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><p id="glowna">Strona Główna</p></a>
-                        </li>                       
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><p id="nav-pages">Strona Główna</p></a>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CarModels" asp-action="Index">Model samochodu</a>
-                        </li>                        
-                <li class="nav-item">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a class="nav-link text-dark" asp-area="" asp-controller="CustomerModels" asp-action="Index">Klient</a>
-                    }
-                    else
-                    {
-                        <span class="nav-link text-muted">Klient (Dostęp tylko dla zarejestrowanych użytkowników)</span>
-                    }
-                </li>
-                <li class="nav-item">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a class="nav-link text-dark" asp-area="" asp-controller="RentalModels" asp-action="Index">Wynajęte modele</a>
-                    }
-                    else
-                    {
-                        <span class="nav-link text-muted">Wynajęte modele (Dostęp tylko dla zarejestrowanych użytkowników)</span>
-                    }
-                </li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CarModels" asp-action="Index"><p id="nav-pages">Model samochodu</p></a>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Polityka Prywatności</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="CustomerModels" asp-action="Index"><p id="nav-pages">Klient</p></a>
+                            }
+                            else
+                            {
+                                <span class="nav-link" id="nav-pages">Klient</span>
+                            }
+                        </li>
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="RentalModels" asp-action="Index"><p id="nav-pages">Wynajęte modele</p></a>
+                            }
+                            else
+                            {
+                                <span class="nav-link" id="nav-pages">Wynajęte modele</span>
+                            }
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><p id="nav-pages">Polityka Prywatności</p></a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -62,11 +62,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - CarRentalSystem - <a asp-area="" asp-controller="Home" asp-action="omnie">Aleksander Chomicz</a>
+            &copy; 2024 - CarRentalSystem - <a asp-area="" asp-controller="Home" asp-action="omnie">Aleksander Chomicz</a>
         </div>
     </footer>
-	
-	<script src="js/bootstrap.js"></script>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
