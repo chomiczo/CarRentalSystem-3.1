@@ -1,0 +1,50 @@
+﻿@model CarRentalSystem.Models.CarModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edytuj</h1>
+
+<h4>Model samochodu</h4>
+<hr />
+@if (!User.IsInRole("Administrator"))
+{
+        <div class="alert alert-warning" role="alert">
+            Modyfikacji modelu samochodu na tej podstronie może dokonywać tylko i wyłącznie Administrator!
+        </div>
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="number" hidden asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Brand" class="control-label">Marka</label>
+                <input asp-for="Brand" class="form-control" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model" class="control-label">Model</label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label">Rocznik</label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Powrót</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

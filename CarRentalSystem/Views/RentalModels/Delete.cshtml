@@ -1,0 +1,44 @@
+﻿@model CarRentalSystem.Models.RentalModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Usuń</h1>
+
+<h3>Czy jesteś pewien, że chcesz usunąć ten model samochodu z listy?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Nazwa auta
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarId)
+        </dd>
+        <dt class = "col-sm-2">
+            Identyfikator klienta
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CustomerId)
+        </dd>
+        <dt class = "col-sm-2">
+            Data wynajmu
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RentalDate)
+        </dd>
+        <dt class = "col-sm-2">
+            Data zwrotu
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReturnDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Tak, usuń!" class="btn btn-danger" /> |
+        <a asp-action="Index">Powrót</a>
+    </form>
+</div>

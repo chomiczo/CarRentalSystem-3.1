@@ -1,0 +1,62 @@
+﻿@model IEnumerable<CarRentalSystem.Models.RentalModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Wynajęte Modele</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create">Wynajmij wybrany samochód!</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Marka   @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                Identyfikator klienta
+            </th>
+            <th>
+                Data wynajmu
+            </th>
+            <th>
+                Data zwrotu
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)  @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RentalDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
