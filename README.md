@@ -30,22 +30,29 @@ RentalModels: Reprezentacja wypożyczeń samochodów. Zawiera informacje, takie 
 
 Instrukcje Użycia
 Po utworzeniu konta za pomocą rejestracji:
-Strona Główna: Użytkownik przegląda zdjęcia dostępnych modeli samochodów.
+Strona Główna: Użytkownik przegląda zdjęcia przykładowych modeli samochodów.
 Model Samochodu: Dodanie modeli oraz modyfikacja samochodów jest dostępna tylko dla statycznego konta Administratora.
-Wynajęte Modele: Po zalogowaniu użytkownik rezerwuje wybrany samochód, wybierając opcję "Wynajmij". Zalogowani użytkownicy zarządzają swoimi wypożyczeniami w panelu użytkownika.
+Wynajęte Modele: Po zalogowaniu użytkownik rezerwuje wybrany samochód, wybierając termin, a następnie opcję "Wynajmij". Zalogowani użytkownicy zarządzają swoimi wypożyczeniami w panelu użytkownika.
 Klient: Użytkownik wypełnia dane personalne w formularzu, aby wynająć samochód. 
+Polityka Prywatności: Użytkownik zarejestrowany albo niezarejestrowany może sobie przeczytać informacje dotyczące o ochronie danych.
 
 Dodatkowe informacje
-Dodano statyczne konto Administratora
+Dodano statyczne konto Administratora.
 Aby zalogować się na konto Administratora w celu zarządzania dostępnością samochodów na podstronie Modele samochodów należy wpisać prawidłowo dane logowania:
 Email: admin@admin.com
 Hasło: Admin123$
+Zalogowany użytkownik może po kliknięciu na swoją „nazwę” przejść do profilu użytkownika i zmienić ewentualnie swój adres e-mail lub numer telefonu.
+
 Wprowadzono zabezpieczenia następujące:
 •	Normalny użytkownik nie ma możliwości do wszelkiego rodzaju modyfikacji na podstronie Model samochodu, tylko może Administrator.
-•	Niezarejestrowany użytkownik nie ma wglądu do podstron Wynajęte modele oraz Klient, musi się najpierw zarejestrować
+•	Niezarejestrowany użytkownik nie ma wglądu do podstron Wynajęte modele oraz Klient, musi się najpierw zarejestrować.
 •	Bez wypełnionego formularzu nie ma możliwości by zarejestrowany użytkownik mógł wynająć samochód.
 •	Podczas rejestracji użytkownik jest zmuszony skonstruować takie hasło, aby zawierało przynajmniej jedną dużą literę, liczbę oraz znak specjalny.
-•	
+•	Nie można usunąć z listy danego samochodu jeśli jest wypożyczony aktualnie przez użytkownika.
+•	Każdy użytkownik kiedy wypożycza samochód dostępny z listy modeli samochodów, po kliknięciu „Wynajmij” zostaje wygenerowany unikalny identyfikator dla każdego użytkownika.
+•	Każdy użytkownik ma dostęp jedynie do swoich wypożyczonych samochodów i nie ma prawa wglądu do innego użytkownika.
+•	Każdy zarejestrowany użytkownik może wypełnić tylko raz formularz klienta ze swoimi danymi.
+
 
 Potencjalne Usprawnienia
 Aplikacja posiada autoryzację za pomocą ASP.NET Identity.
@@ -53,4 +60,3 @@ Dodano również System.ComponentModel.DataAnnotations do definiowania reguł wa
 
 Autor
 Aleksander Chomicz
-
