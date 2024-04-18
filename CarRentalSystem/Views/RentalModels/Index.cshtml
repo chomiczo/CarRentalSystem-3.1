@@ -16,11 +16,22 @@
 <p>
     <a asp-action="Create" class="btn btn-success">Wynajmij wybrany samochód!</a>
 </p>
+
+@{
+    decimal totalPrice = 0;
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-               Marka   @Html.DisplayNameFor(model => model.Model)
+                Marka
+            </th>
+            <th>
+                Model
+            </th>
+            <th>
+                Cena wynajmu
             </th>
             <th>
                 Identyfikator klienta
@@ -39,7 +50,17 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Brand)  @Html.DisplayFor(modelItem => item.Model)
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @{
+                        decimal rentPrice = item.CarModel?.NumericRentPrice ?? 0;
+                        totalPrice += rentPrice;
+                        @string.Format("{0:#,0.00} zł", rentPrice)
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CustomerId)
@@ -51,12 +72,13 @@
                     @Html.DisplayFor(modelItem => item.ReturnDate)
                 </td>
                 <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edytuj</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning">Szczegóły</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Usuń</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edytuj</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning">Szczegóły</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Usuń</a>
                 </td>
             </tr>
         }
-
     </tbody>
 </table>
+
+<p>Suma cen wynajmu wszystkich samochodów: @string.Format("{0:#,0.00} zł", totalPrice)</p>

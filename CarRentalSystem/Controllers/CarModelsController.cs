@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CarRentalSystem.Data;
+using CarRentalSystem.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using CarRentalSystem.Data;
-using CarRentalSystem.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 
 namespace CarRentalSystem.Controllers
 {
@@ -25,9 +21,9 @@ namespace CarRentalSystem.Controllers
         // GET: CarModels
         public async Task<IActionResult> Index()
         {
-              return _context.CarModel != null ? 
-                          View(await _context.CarModel.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.CarModel'  is null.");
+            return _context.CarModel != null ?
+                        View(await _context.CarModel.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.CarModel'  is null.");
         }
 
         // GET: CarModels/Details/5
@@ -47,21 +43,19 @@ namespace CarRentalSystem.Controllers
 
             return View(carModel);
         }
-        [Authorize(Roles = "Administrator")]
+
         // GET: CarModels/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
-      
             return View();
         }
 
         // POST: CarModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("Id,Brand,Model,Year")] CarModel carModel)
+        public async Task<IActionResult> Create([Bind("Id,Brand,Model,Year,RentPrice")] CarModel carModel)
         {
             // Sprawdź, czy użytkownik ma wymagane uprawnienia
             if (!User.IsInRole("Administrator"))
@@ -102,12 +96,10 @@ namespace CarRentalSystem.Controllers
         }
 
         // POST: CarModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Brand,Model,Year")] CarModel carModel)
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Brand,Model,Year,RentPrice")] CarModel carModel)
         {
             if (id != carModel.Id)
             {
@@ -174,9 +166,9 @@ namespace CarRentalSystem.Controllers
         }
 
         // POST: CarModels/Delete/5
-        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
@@ -216,12 +208,9 @@ namespace CarRentalSystem.Controllers
                 return Problem("Wystąpił błąd podczas usuwania rekordu.", null, 500);
             }
         }
-
-
-
         private bool CarModelExists(int id)
         {
-          return (_context.CarModel?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.CarModel?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

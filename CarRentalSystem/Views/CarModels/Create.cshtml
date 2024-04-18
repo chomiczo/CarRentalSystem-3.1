@@ -34,6 +34,11 @@
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="RentPrice" class="control-label">Cena wynajmu (PLN)</label>
+                <input asp-for="RentPrice" class="form-control" />
+                <span asp-validation-for="RentPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Dodaj" class="btn btn-primary" />
             </div>
         </form>

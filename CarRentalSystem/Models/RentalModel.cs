@@ -10,6 +10,7 @@
         public int CarModelId { get; set; }
         public string Brand => CarModel?.Brand ?? "Unknown";
         public string Model => CarModel?.Model ?? "Unknown";
+        public decimal? NumericRentPrice => CarModel?.NumericRentPrice ?? 0;
         public DateTime? RentalDate { get; set; }
         public DateTime? ReturnDate { get; set; }
         public List<CarModel>? CarModels { get; set; }

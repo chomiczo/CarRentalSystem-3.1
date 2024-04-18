@@ -36,8 +36,19 @@ namespace CarRentalSystem.Controllers
                 .Where(r => r.CustomerId == user.Id)
                 .ToListAsync();
 
+            foreach (var rentalModel in rentedModels)
+            {
+                var carModel = rentalModel.CarModel;
+                if (carModel != null)
+                {
+                    carModel.NumericRentPrice = carModel != null ? Convert.ToDecimal(carModel.RentPrice) : 0;
+                }
+            }
+
             return View(rentedModels);
         }
+
+
 
         // GET: RentalModels/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -145,13 +156,20 @@ namespace CarRentalSystem.Controllers
             {
                 _context.Add(rentalModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Przekaż cenę wynajmu do akcji Create kontrolera PaymentsController jako parametr
+                var carModel = await _context.CarModel.FindAsync(rentalModel.CarId);
+                if (carModel != null)
+                {
+                    return RedirectToAction("Create", "Payments", new { amount = carModel.RentPrice });
+                }
             }
 
             // Jeśli ModelState.IsValid jest false, wróć do widoku z błędami
             rentalModel.CarModels = await _context.CarModel.ToListAsync();
             return View("Create", rentalModel);
         }
+
 
 
 

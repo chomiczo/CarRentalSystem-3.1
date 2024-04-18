@@ -14,9 +14,9 @@
 }
 @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
 {
-<p>
+    <p>
         <a asp-action="Create" class="btn btn-success">Dodaj model samochodu do listy!</a>
-</p>
+    </p>
 }
 <table class="table">
     <thead>
@@ -30,6 +30,9 @@
             <th>
                 Rocznik
             </th>
+            <th>
+                Cena wynajmu (zł)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,7 +40,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td> 
+                <td>
                     @Html.DisplayFor(modelItem => item.Brand)
                 </td>
                 <td>
@@ -47,18 +50,21 @@
                     @Html.DisplayFor(modelItem => item.Year)
                 </td>
                 <td>
-                        @if (User.IsInRole("Administrator"))
-                        {
+                    @string.Format("{0:#,0.00} zł", item.RentPrice)<!-- Wyświetlenie ceny wynajmu-->
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrator"))
+                    {
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edytuj</a>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning">Szczegóły</a>
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Usuń</a>
-                        }
-                        else
-                        {
+                    }
+                    else
+                    {
                         <span class="text-muted">Edytuj | Szczegóły | Usuń</span>
-                        }
+                    }
                 </td>
             </tr>
-            }
+        }
     </tbody>
 </table>
