@@ -1,7 +1,7 @@
 ﻿@model CarRentalSystem.Models.Payment
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Dokonaj płatności";
 }
 
 <!DOCTYPE html>
@@ -9,55 +9,49 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dokonaj płatności</title>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <h1>Dokonaj płatności</h1>
+    <div class="container">
+        <h1 class="mt-5">Dokonaj płatności</h1>
 
-    <h4>Wybierz metodę płatności</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form id="paymentForm" asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="PaymentMethod" class="control-label">Metoda płatności</label>
-                    <select asp-for="PaymentMethod" class="form-control">
-                        <option value="BLIK">BLIK</option>
-                        <option value="VISA">VISA</option>
-                        <!-- Dodaj więcej opcji dla innych metod płatności -->
-                    </select>
-                    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Amount" class="control-label">Kwota do zapłaty:</label>
-                    <span class="text-success font-weight-bold ">@String.Format("{0:C}", Model.Amount) zł</span>
-                </div>
+        <div class="row mt-4">
+            <div class="col-md-6 offset-md-3">
+                <form id="paymentForm" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group">
-                    <input type="submit" id="submitBtn" value="Dokonaj płatności" class="btn btn-primary" />
-                </div>
-            </form>
+                    <div class="form-group">
+                        <label asp-for="PaymentMethod" class="control-label">Metoda płatności</label>
+                        <select asp-for="PaymentMethod" class="form-control">
+                            <option value="BLIK">BLIK</option>
+                            <option value="VISA">VISA</option>
+                            <!-- Dodaj więcej opcji dla innych metod płatności -->
+                        </select>
+                        <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Amount" class="control-label">Kwota do zapłaty:</label>
+                        <p class="text-success font-weight-bold">@String.Format("{0:C}", Model.Amount) zł</p>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" id="submitBtn" class="btn btn-primary">Dokonaj płatności</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
         $(document).ready(function () {
-            // Nasłuchiwanie zdarzenia submit formularza
             $("#paymentForm").submit(function (e) {
-                // Zatrzymaj domyślne zachowanie formularza (przesłanie danych)
                 e.preventDefault();
+                $("#submitBtn").prop("disabled", true).html("Proszę czekać...");
 
-                // Zablokuj przycisk "Dokonaj płatności"
-                $("#submitBtn").prop("disabled", true);
-
-                // Wyświetl kółko ładowania
-                $("#submitBtn").val("Proszę czekać...");
-
-                // Po 3 sekundach przekieruj na stronę RentalModels
                 setTimeout(function () {
-                    // Przekieruj na stronę RentalModels z komunikatem sukcesu w adresie URL
                     window.location.href = "/RentalModels/Index?successMessage=@ViewBag.SuccessMessage";
                 }, 3000);
             });

@@ -6,12 +6,6 @@
 
 <h1>Modele samochodów</h1>
 
-@if (!User.IsInRole("Administrator"))
-{
-    <div class="alert alert-warning" role="alert">
-        Modyfikacji modelu samochodu na tej podstronie może dokonywać tylko i wyłącznie Administrator!
-    </div>
-}
 @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
 {
     <p>
@@ -58,10 +52,6 @@
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edytuj</a>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning">Szczegóły</a>
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Usuń</a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">Edytuj | Szczegóły | Usuń</span>
                     }
                 </td>
             </tr>

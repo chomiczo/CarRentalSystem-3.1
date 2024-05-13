@@ -41,7 +41,7 @@ namespace CarRentalSystem.Controllers
         {
             return View();
         }
-        public IActionResult omnie()
+        public IActionResult autorzy()
         {
             return View();
         }

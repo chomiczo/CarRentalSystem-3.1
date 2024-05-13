@@ -1,4 +1,6 @@
-﻿namespace CarRentalSystem.Models
+﻿using System;
+
+namespace CarRentalSystem.Models
 {
     public class RentalModel
     {
@@ -11,9 +13,8 @@
         public string Brand => CarModel?.Brand ?? "Unknown";
         public string Model => CarModel?.Model ?? "Unknown";
         public decimal? NumericRentPrice => CarModel?.NumericRentPrice ?? 0;
-        public DateTime? RentalDate { get; set; }
-        public DateTime? ReturnDate { get; set; }
+        public DateTimeOffset? RentalDate { get; set; } // Zmiana typu na DateTimeOffset?
+        public DateTimeOffset? ReturnDate { get; set; } // Zmiana typu na DateTimeOffset?
         public List<CarModel>? CarModels { get; set; }
-
     }
 }

@@ -25,26 +25,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="CarModels" asp-action="Index"><p id="nav-pages">Model samochodu</p></a>
                         </li>
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="CustomerModels" asp-action="Index"><p id="nav-pages">Klient</p></a>
-                            }
-                            else
-                            {
-                                <span class="nav-link" id="nav-pages">Klient</span>
-                            }
-                        </li>
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="RentalModels" asp-action="Index"><p id="nav-pages">Wynajęte modele</p></a>
-                            }
-                            else
-                            {
-                                <span class="nav-link" id="nav-pages">Wynajęte modele</span>
-                            }
-                        </li>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><p id="nav-pages">Polityka Prywatności</p></a>
                         </li>
@@ -62,7 +51,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - CarRentalSystem - <a asp-area="" asp-controller="Home" asp-action="omnie">Aleksander Chomicz</a>
+            &copy; 2024 - CarRentalSystem - <a asp-area="" asp-controller="Home" asp-action="autorzy">Autorzy projektu</a>
         </div>
     </footer>
 

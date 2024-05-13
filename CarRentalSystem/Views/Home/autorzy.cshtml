@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Autorzy";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p class="card-text text-white">
+                Jesteśmy studentami Uniwersytetu WSB Merito w Poznaniu, III rok studia dzienne. Pasjonujemy się programowaniem i ciągłym rozwojem w tej dziedzinie. ;)
+            </p>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        @foreach (var author in new[] { "Aleksander Chomicz", "Maciej Adamski", "Szymon Drapiński", "Jakub Cegłowski" })
+        {
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-dark text-center">@author</h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
