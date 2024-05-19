@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231207162031_V27")]
-    partial class V27
+    [Migration("20240519182118_V34")]
+    partial class V34
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.25")
+                .HasAnnotation("ProductVersion", "6.0.29")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -40,6 +40,12 @@ namespace CarRentalSystem.Data.Migrations
 
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("NumericRentPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double>("RentPrice")
+                        .HasColumnType("float");
 
                     b.Property<int?>("RentalModelId")
                         .HasColumnType("int");
@@ -86,6 +92,25 @@ namespace CarRentalSystem.Data.Migrations
                     b.ToTable("CustomerModel");
                 });
 
+            modelBuilder.Entity("CarRentalSystem.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Amount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Payment");
+                });
+
             modelBuilder.Entity("CarRentalSystem.Models.RentalModel", b =>
                 {
                     b.Property<int>("Id")
@@ -106,11 +131,11 @@ namespace CarRentalSystem.Data.Migrations
                     b.Property<int?>("CustomerId1")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("RentalDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("RentalDate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime?>("ReturnDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("ReturnDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 

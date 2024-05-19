@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240513162453_V31")]
-    partial class V31
+    [Migration("20240519182015_V33")]
+    partial class V33
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
