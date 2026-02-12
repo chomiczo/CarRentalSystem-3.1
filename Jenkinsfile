@@ -1,60 +1,33 @@
 pipeline {
     agent any
-
+    environment {
+        // Ustawiamy zmienną, żeby Compose wiedział gdzie szukać projektu
+        COMPOSE_PROJECT_NAME = "carrental"
+    }
     stages {
-        stage('Pobranie Kodu') {
+        stage('Czyszczenie') {
             steps {
-                // Zakładam, że masz Gita. Jenkins sam pobierze kod.
-                echo 'Pobieranie kodu...'
-            }
-        }
-
-        stage('Budowanie Obrazu Docker') {
-            steps {
-                script {
-                    // To polecenie zbuduje obraz Twojej apki CarRentalSystem
-                    sh 'docker build -t car-rental-app:latest .'
-                }
+                // Usuwamy stare kontenery, żeby nie było konfliktu nazw
+                sh 'docker-compose down || true' 
+                // Na wszelki wypadek usuwamy stary kontener testowy jeśli został
+                sh 'docker rm -f car-rental-test || true'
             }
         }
         
-        stage('Test Uruchomienia') {
+        stage('Uruchomienie (Compose)') {
             steps {
-                 echo 'Sprawdzam czy obraz istnieje...'
-                 sh 'docker image inspect car-rental-app:latest'
-            }
-        }
-
-	stage('Uruchomienie Kontenera') {
-    	   steps {
-            	script {
-            		// Najpierw usuwamy stary kontener, jeśli istnieje, żeby nie było błędu nazwy
-            		sh 'docker rm -f car-rental-test || true'
-            		// Uruchamiamy aplikację na porcie 8081
-            		sh 'docker run -d --name car-rental-test -p 8081:80 car-rental-app:latest'
-            		echo 'Aplikacja powinna być dostępna pod http://localhost:8081'
-        		}
-    		}
-	}
-    stage('Budowanie i Uruchomienie (Compose)') {
-    steps {
-        sh 'docker-compose down' // Usuwa stare kontenery
-        sh 'docker-compose up -d --build' // Buduje i uruchamia wszystko w tle
-    }
-}
-stages {
-        stage('Deploy with Compose') {
-            steps {
-                sh 'docker-compose down'
+                // To magiczna komenda: Buduje apkę I stawia bazę danych
                 sh 'docker-compose up -d --build'
             }
         }
-        stage('Migrate Database') {
+
+        stage('Migracja Bazy Danych') {
             steps {
-                echo 'Czekam na start bazy...'
-                sleep 20
-                // Wykonanie migracji EF Core wewnątrz kontenera
-                sh 'docker exec carrentalsystem-app-1 dotnet ef database update'
+                echo 'Czekam 20 sekund aż SQL Server wstanie...'
+                sleep 20 
+                // Wykonujemy komendę wewnątrz działającego kontenera "app"
+                // Używamy "docker-compose exec", bo to bezpieczniejsze niż zgadywanie nazwy kontenera
+                sh 'docker-compose exec -T app dotnet ef database update'
             }
         }
     }
