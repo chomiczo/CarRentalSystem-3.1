@@ -1,0 +1,13 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Potwierdź email";
+}
+
+<h1>@ViewData["Title"]</h1>
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <div class="alert alert-info" role="alert">
+        @Model.StatusMessage
+    </div>
+}
