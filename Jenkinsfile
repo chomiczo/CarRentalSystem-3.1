@@ -36,5 +36,26 @@ pipeline {
         		}
     		}
 	}
+    stage('Budowanie i Uruchomienie (Compose)') {
+    steps {
+        sh 'docker-compose down' // Usuwa stare kontenery
+        sh 'docker-compose up -d --build' // Buduje i uruchamia wszystko w tle
+    }
+}
+stages {
+        stage('Deploy with Compose') {
+            steps {
+                sh 'docker-compose down'
+                sh 'docker-compose up -d --build'
+            }
+        }
+        stage('Migrate Database') {
+            steps {
+                echo 'Czekam na start bazy...'
+                sleep 20
+                // Wykonanie migracji EF Core wewnątrz kontenera
+                sh 'docker exec carrentalsystem-app-1 dotnet ef database update'
+            }
+        }
     }
 }
