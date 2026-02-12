@@ -1,8 +1,6 @@
 ﻿using CarRentalSystem.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Threading.Tasks;
 
 public class Startup
 {
@@ -24,13 +21,19 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        var connectionString = _configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        // Pobieranie ConnectionString (w Dockerze podstawi się ten ze zmiennych środowiskowych)
+        var connectionString = _configuration.GetConnectionString("DefaultConnection")
+                               ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
             {
-                sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                // Ważne dla Dockera: Retry policy (jak baza wstaje wolniej niż apka)
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null);
             });
         });
 
@@ -40,7 +43,9 @@ public class Startup
 
         services.AddIdentity<IdentityUser, IdentityRole>(options =>
         {
-            options.SignIn.RequireConfirmedEmail = true; 
+            // WAŻNE: Upewnij się, że w SeedData ustawiasz EmailConfirmed = true dla admina,
+            // inaczej nie zalogujesz się przy tych ustawieniach!
+            options.SignIn.RequireConfirmedEmail = true;
             options.SignIn.RequireConfirmedAccount = true;
         })
         .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -57,11 +62,7 @@ public class Startup
         });
 
         services.AddAuthorization();
-
-        services.AddMvc();
-
         services.AddControllersWithViews();
-
         services.AddRazorPages();
     }
 
@@ -77,29 +78,6 @@ public class Startup
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
         }
-
-        app.Use(async (context, next) =>
-        {
-            var userManager = context.RequestServices.GetService<UserManager<IdentityUser>>();
-            var user = await userManager.FindByEmailAsync("admin@admin.com");
-
-            if (user != null)
-            {
-                var token = await userManager.GeneratePasswordResetTokenAsync(user);
-                var resetLink = $"{context.Request.Scheme}://{context.Request.Host}/Identity/Account/ResetPassword?userId={Uri.EscapeDataString(user.Id)}&code={Uri.EscapeDataString(token)}";
-                logger.LogInformation($"Reset password link: {resetLink}");
-            }
-
-            await next();
-
-            if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
-            {
-                // Loguj nieudane próby logowania
-                logger.LogWarning($"404 error. Path: {context.Request.Path}");
-            }
-        });
-
-
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
@@ -117,5 +95,4 @@ public class Startup
             endpoints.MapRazorPages();
         });
     }
-
 }
